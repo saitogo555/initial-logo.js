@@ -6,7 +6,7 @@ const DEFAULT_FONT_SOURCE =
   "https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap";
 const DEFAULT_FONT_FAMILY = "Inconsolata, monospace";
 const DEFAULT_FONT_WEIGHT = "bold";
-const DEFAULT_LINE_HEIGHT = 1;
+const DEFAULT_LINE_HEIGHT = 0.8;
 const DEFAULT_BG_COLOR = "#000000";
 
 function validateOptions(options: LogoOptions): void {
