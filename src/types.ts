@@ -6,5 +6,6 @@ export interface LogoOptions {
   fontFamily?: string;
   fontSize?: number;
   fontWeight?: string | number;
+  lineHeight?: string | number;
   backgroundColor?: string | string[];
 }

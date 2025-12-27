@@ -4,6 +4,7 @@ const options1 = {
   text: "TS",
   size: 100,
   textColor: "#ffffff",
+  lineHeight: 0.75,
   backgroundColor: "#3178c6",
 };
 
