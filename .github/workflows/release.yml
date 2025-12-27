@@ -32,9 +32,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: "https://registry.npmjs.org"
 
       - name: Publish to npm
-        run: npm publish
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "🚀 Publishing to npm..."
+            npm publish
+          else
+            echo "🧪 Dry-run mode (skipping actual publish)..."
+            npm publish --dry-run
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
