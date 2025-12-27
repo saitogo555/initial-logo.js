@@ -1,11 +1,32 @@
 {
-  "name": "initial-logo.js",
-  "module": "index.ts",
+  "name": "initial-logo",
+  "version": "0.1.0",
+  "description": "Generate JavaScript/TypeScript style logo via CLI or Library",
   "type": "module",
-  "devDependencies": {
-    "@types/bun": "latest"
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
-  "peerDependencies": {
-    "typescript": "^5"
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "initial-logo": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "playground": "vite playground"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0"
   }
 }
