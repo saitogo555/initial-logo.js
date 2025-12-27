@@ -16,6 +16,9 @@
   "bin": {
     "initial-logo": "./dist/cli.js"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
     "dist"
   ],
