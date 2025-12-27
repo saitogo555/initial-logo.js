@@ -2,6 +2,14 @@
   "name": "initial-logo",
   "version": "0.1.0",
   "description": "Generate JavaScript/TypeScript style logo via CLI or Library",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saitogo555/initial-logo.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saitogo555/initial-logo.js/issues"
+  },
+  "homepage": "https://github.com/saitogo555/initial-logo.js#readme",
   "type": "module",
   "exports": {
     ".": {
