@@ -1,7 +1,17 @@
 {
   "name": "initial-logo",
   "version": "0.1.0",
-  "description": "Generate JavaScript/TypeScript style logo via CLI or Library",
+  "description": "Generate JavaScript/TypeScript style logo",
+  "keywords": [
+    "logo",
+    "generator",
+    "typescript",
+    "javascript",
+    "initials",
+    "browser"
+  ],
+  "author": "saitogo555",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/saitogo555/initial-logo.js.git"
@@ -21,9 +31,6 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "initial-logo": "./dist/cli.js"
-  },
   "publishConfig": {
     "access": "public"
   },
@@ -33,7 +40,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "playground": "vite playground"
+    "playground": "vite playground",
+    "prepublishOnly": "bun run build"
   },
   "devDependencies": {
     "tsup": "^8.5.1",
