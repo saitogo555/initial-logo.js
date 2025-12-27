@@ -2,8 +2,11 @@ import type { LogoOptions } from "./types";
 
 const DEFAULT_SIZE = 100;
 const DEFAULT_TEXT_COLOR = "#ffffff";
-const DEFAULT_FONT_FAMILY = "'Helvetica Neue', Arial, sans-serif";
+const DEFAULT_FONT_SOURCE =
+  "https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap";
+const DEFAULT_FONT_FAMILY = "Inconsolata, monospace";
 const DEFAULT_FONT_WEIGHT = "bold";
+const DEFAULT_LINE_HEIGHT = 1;
 const DEFAULT_BG_COLOR = "#000000";
 
 function validateOptions(options: LogoOptions): void {
@@ -52,13 +55,14 @@ function getTextStyle(options: LogoOptions): Partial<CSSStyleDeclaration> {
   const size = options.size ?? DEFAULT_SIZE;
   const textColor = options.textColor ?? DEFAULT_TEXT_COLOR;
   const fontFamily = options.fontFamily ?? DEFAULT_FONT_FAMILY;
-  const fontSize = options.fontSize ?? Math.round(size * 0.5);
+  const fontSize = options.fontSize ?? Math.round(size * 0.65);
   const fontWeight = options.fontWeight ?? DEFAULT_FONT_WEIGHT;
+  const lineHeight = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
   const style: Partial<CSSStyleDeclaration> = {
     fontFamily: fontFamily,
     fontSize: `${fontSize}px`,
     fontWeight: fontWeight.toString(),
-    lineHeight: "1",
+    lineHeight: lineHeight.toString(),
   };
 
   if (Array.isArray(textColor)) {
@@ -74,10 +78,7 @@ function getTextStyle(options: LogoOptions): Partial<CSSStyleDeclaration> {
 
 export function generateLogo(options: LogoOptions): HTMLDivElement {
   validateOptions(options);
-
-  if (options.fontSource) {
-    loadFont(options.fontSource);
-  }
+  loadFont(options.fontSource ?? DEFAULT_FONT_SOURCE);
 
   const containerElement = document.createElement("div");
   const textElement = document.createElement("span");
