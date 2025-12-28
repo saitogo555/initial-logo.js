@@ -1,5 +1,8 @@
 # initial-logo.js
 
+> [!WARNING]
+> **ベータ版**: このプロジェクトは現在ベータ版です。APIは予告なく変更される可能性があります。
+
 [🇺🇸 English](../README.md) | [🇯🇵 日本語](README.ja.md)
 
 JavaScript/TypeScript スタイルのロゴ（四角形の中に2文字）を生成するライブラリです。
@@ -10,6 +13,7 @@ JavaScript/TypeScript スタイルのロゴ（四角形の中に2文字）を生
 - 🌈 **グラデーション**: 背景とテキストのグラデーションをサポート。
 - 🔤 **カスタムフォント**: Google Fonts などからフォントを簡単に読み込み。
 - ⚡ **軽量**: コアロジックに依存関係なし。
+- 🖼️ **複数のフォーマット**: HTML Div、SVG 文字列、SVG 要素を生成可能。
 
 ## インストール
 
@@ -22,16 +26,31 @@ npm install initial-logo
 ## 使い方
 
 ```typescript
-import { generateLogo } from 'initial-logo';
+import { generateLogo, generateSvg, generateSvgElement } from 'initial-logo';
 
+// HTML Div 要素の生成
 const logo = generateLogo({
   text: 'TS',
   size: 100,
   textColor: '#ffffff',
   backgroundColor: '#3178c6',
 });
-
 document.body.appendChild(logo);
+
+// SVG 文字列の生成
+const svgString = generateSvg({
+  text: 'JS',
+  textColor: '#000000',
+  backgroundColor: '#f7df1e',
+});
+
+// SVG 要素の生成
+const svgElement = generateSvgElement({
+  text: 'JS',
+  textColor: '#000000',
+  backgroundColor: '#f7df1e',
+});
+document.body.appendChild(svgElement);
 ```
 
 ### グラデーションの例
@@ -48,7 +67,15 @@ const gradientLogo = generateLogo({
 
 ### `generateLogo(options: LogoOptions): HTMLDivElement`
 
-ロゴ要素を生成します。
+ロゴを HTML `div` 要素として生成します。
+
+### `generateSvg(options: LogoOptions): string`
+
+ロゴを SVG 文字列として生成します。
+
+### `generateSvgElement(options: LogoOptions): SVGElement`
+
+ロゴを SVG DOM 要素として生成します。
 
 #### `LogoOptions`
 
@@ -58,10 +85,9 @@ const gradientLogo = generateLogo({
 | `size` | `number` | `100` | 四角形のサイズ（ピクセル）。 |
 | `textColor` | `string \| string[]` | `'#ffffff'` | テキストの色。配列を渡すとグラデーションになります。 |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | 背景色。配列を渡すとグラデーションになります。 |
-| `fontSource` | `string` | Google Fonts URL | フォントを読み込む URL。 |
-| `fontFamily` | `string` | `'Inconsolata, monospace'` | CSS font-family。 |
+| `fontSource` | `string` | (埋め込み JetBrains Mono) | フォントを読み込む URL (WOFF2形式推奨)。 |
 | `fontSize` | `number` | `Math.round(size * 0.65)` | フォントサイズ（ピクセル）。 |
-| `fontWeight` | `string \| number` | `'bold'` | CSS font-weight。 |
+| `fontWeight` | `string \| number` | `'800'` | CSS font-weight。 |
 | `lineHeight` | `string \| number` | `0.8` | CSS line-height。 |
 
 ## 開発
