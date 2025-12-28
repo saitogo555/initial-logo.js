@@ -2,7 +2,6 @@ import {
   DEFAULT_SIZE,
   DEFAULT_TEXT_COLOR,
   DEFAULT_FONT_SOURCE,
-  DEFAULT_FONT_FAMILY,
   DEFAULT_FONT_WEIGHT,
   DEFAULT_LINE_HEIGHT,
   DEFAULT_BG_COLOR,
@@ -15,12 +14,21 @@ export function getSvgNode(options: LogoOptions): SVGNode {
   const id = Math.random().toString(16).substring(2, 10);
   const size = options.size ?? DEFAULT_SIZE;
   const bgColor = options.backgroundColor ?? DEFAULT_BG_COLOR;
-  const fontFamily = options.fontFamily ?? DEFAULT_FONT_FAMILY;
-  const fontSize = options.fontSize ?? Math.round(size * 0.7);
+  const fontSize = options.fontSize ?? Math.round(size * 0.525);
   const fontWeight = options.fontWeight ?? DEFAULT_FONT_WEIGHT;
   const lineHeight = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
+  const fontSource = options.fontSource ?? DEFAULT_FONT_SOURCE;
 
   const gradients: SVGNode[] = [];
+
+  if (fontSource) {
+    gradients.push({
+      tag: "style",
+      children: [
+        `@font-face { font-family: "font-${id}"; font-weight: 100 900; src: url(${fontSource}) format("woff2"); }`,
+      ],
+    });
+  }
 
   if (Array.isArray(bgColor)) {
     gradients.push({
@@ -83,10 +91,10 @@ export function getSvgNode(options: LogoOptions): SVGNode {
   const textNode: SVGNode = {
     tag: "text",
     attrs: {
-      x: (size * 0.95).toString(),
-      y: (size * 0.925).toString(),
+      x: (size * 0.9375).toString(),
+      y: (size * 0.9125).toString(),
       "text-anchor": "end",
-      "font-family": fontFamily,
+      "font-family": `font-${id}`,
       "font-size": fontSize.toString(),
       "font-weight": fontWeight.toString(),
       "line-height": lineHeight.toString(),

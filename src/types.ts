@@ -99,16 +99,16 @@ export type SVGTagMap = {
   svg: SVGSVGAttrs;
   rect: SVGRectAttrs;
   text: SVGTextAttrs;
-  defs: SVGCoreAttrs; // defs usually doesn't have presentation attributes itself
+  defs: SVGCoreAttrs;
   linearGradient: SVGLinearGradientAttrs;
   radialGradient: SVGRadialGradientAttrs;
   stop: SVGStopAttrs;
 };
 
-export type SVGTagName = keyof SVGTagMap;
+export type SVGTagName = keyof SVGTagMap | "style";
 
 export interface SVGNode<T extends SVGTagName = SVGTagName> {
   tag: T;
-  attrs?: SVGTagMap[T];
+  attrs?: T extends keyof SVGTagMap ? SVGTagMap[T] : SVGCoreAttrs;
   children?: (SVGNode | string)[];
 }
