@@ -1,5 +1,8 @@
 # initial-logo.js
 
+> [!WARNING]
+> **Beta Version**: This project is currently in beta. APIs are subject to change without notice.
+
 [🇺🇸 English](README.md) | [🇯🇵 日本語](docs/README.ja.md)
 
 Generate JavaScript/TypeScript style logos (2 characters inside a square) easily.
@@ -10,6 +13,7 @@ Generate JavaScript/TypeScript style logos (2 characters inside a square) easily
 - 🌈 **Gradients**: Support for gradient backgrounds and text.
 - 🔤 **Custom Fonts**: Easily load fonts from Google Fonts or other sources.
 - ⚡ **Lightweight**: Zero dependencies for the core logic.
+- 🖼️ **Multiple Formats**: Generate HTML Divs, SVG strings, or SVG Elements.
 
 ## Installation
 
@@ -22,16 +26,31 @@ npm install initial-logo
 ## Usage
 
 ```typescript
-import { generateLogo } from 'initial-logo';
+import { generateLogo, generateSvg, generateSvgElement } from 'initial-logo';
 
+// Generate HTML Div Element
 const logo = generateLogo({
   text: 'TS',
   size: 100,
   textColor: '#ffffff',
   backgroundColor: '#3178c6',
 });
-
 document.body.appendChild(logo);
+
+// Generate SVG String
+const svgString = generateSvg({
+  text: 'JS',
+  textColor: '#000000',
+  backgroundColor: '#f7df1e',
+});
+
+// Generate SVG Element
+const svgElement = generateSvgElement({
+  text: 'JS',
+  textColor: '#000000',
+  backgroundColor: '#f7df1e',
+});
+document.body.appendChild(svgElement);
 ```
 
 ### Gradient Example
@@ -48,7 +67,15 @@ const gradientLogo = generateLogo({
 
 ### `generateLogo(options: LogoOptions): HTMLDivElement`
 
-Generates a logo element.
+Generates a logo as an HTML `div` element.
+
+### `generateSvg(options: LogoOptions): string`
+
+Generates a logo as an SVG string.
+
+### `generateSvgElement(options: LogoOptions): SVGElement`
+
+Generates a logo as an SVG DOM element.
 
 #### `LogoOptions`
 
@@ -58,10 +85,9 @@ Generates a logo element.
 | `size` | `number` | `100` | Size of the square in pixels. |
 | `textColor` | `string \| string[]` | `'#ffffff'` | Text color. Pass an array for gradient. |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | Background color. Pass an array for gradient. |
-| `fontSource` | `string` | Google Fonts URL | URL to load the font from. |
-| `fontFamily` | `string` | `'Inconsolata, monospace'` | CSS font-family. |
+| `fontSource` | `string` | (Embedded JetBrains Mono) | URL to load the font from (WOFF2 format recommended). |
 | `fontSize` | `number` | `Math.round(size * 0.65)` | Font size in pixels. |
-| `fontWeight` | `string \| number` | `'bold'` | CSS font-weight. |
+| `fontWeight` | `string \| number` | `'800'` | CSS font-weight. |
 | `lineHeight` | `string \| number` | `0.8` | CSS line-height. |
 
 ## Development
