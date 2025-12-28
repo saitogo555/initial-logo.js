@@ -12,10 +12,11 @@ import { validateOptions } from "./validatert";
 
 export function getSvgNode(options: LogoOptions): SVGNode {
   validateOptions(options);
+  const id = Math.random().toString(16).substring(2, 10);
   const size = options.size ?? DEFAULT_SIZE;
   const bgColor = options.backgroundColor ?? DEFAULT_BG_COLOR;
   const fontFamily = options.fontFamily ?? DEFAULT_FONT_FAMILY;
-  const fontSize = options.fontSize ?? Math.round(size * 0.65);
+  const fontSize = options.fontSize ?? Math.round(size * 0.7);
   const fontWeight = options.fontWeight ?? DEFAULT_FONT_WEIGHT;
   const lineHeight = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
 
@@ -25,7 +26,7 @@ export function getSvgNode(options: LogoOptions): SVGNode {
     gradients.push({
       tag: "linearGradient",
       attrs: {
-        id: "bgGradient",
+        id: `bgGradient-${id}`,
         x1: "0%",
         y1: "0%",
         x2: "100%",
@@ -46,7 +47,7 @@ export function getSvgNode(options: LogoOptions): SVGNode {
     gradients.push({
       tag: "linearGradient",
       attrs: {
-        id: "textGradient",
+        id: `textGradient-${id}`,
         x1: "0%",
         y1: "0%",
         x2: "100%",
@@ -74,7 +75,7 @@ export function getSvgNode(options: LogoOptions): SVGNode {
     attrs: {
       width: size.toString(),
       height: size.toString(),
-      fill: Array.isArray(bgColor) ? "url(#bgGradient)" : bgColor,
+      fill: Array.isArray(bgColor) ? `url(#bgGradient-${id})` : bgColor,
     },
     children: [],
   };
@@ -82,16 +83,15 @@ export function getSvgNode(options: LogoOptions): SVGNode {
   const textNode: SVGNode = {
     tag: "text",
     attrs: {
-      x: (size * 0.5).toString(),
-      y: (size * 0.5).toString(),
-      "text-anchor": "middle",
-      "dominant-baseline": "central",
+      x: (size * 0.95).toString(),
+      y: (size * 0.925).toString(),
+      "text-anchor": "end",
       "font-family": fontFamily,
       "font-size": fontSize.toString(),
       "font-weight": fontWeight.toString(),
       "line-height": lineHeight.toString(),
       fill: Array.isArray(options.textColor)
-        ? "url(#textGradient)"
+        ? `url(#textGradient-${id})`
         : options.textColor ?? DEFAULT_TEXT_COLOR,
     },
     children: [options.text],
