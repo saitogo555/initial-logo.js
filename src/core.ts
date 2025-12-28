@@ -1,19 +1,15 @@
+import {
+  DEFAULT_BG_COLOR,
+  DEFAULT_FONT_FAMILY,
+  DEFAULT_FONT_SOURCE,
+  DEFAULT_FONT_WEIGHT,
+  DEFAULT_LINE_HEIGHT,
+  DEFAULT_SIZE,
+  DEFAULT_TEXT_COLOR,
+} from "./constants";
+import { buildSVG, buildSVGElement, getSvgNode } from "./svg";
 import type { LogoOptions } from "./types";
-
-const DEFAULT_SIZE = 100;
-const DEFAULT_TEXT_COLOR = "#ffffff";
-const DEFAULT_FONT_SOURCE =
-  "https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap";
-const DEFAULT_FONT_FAMILY = "Inconsolata, monospace";
-const DEFAULT_FONT_WEIGHT = "bold";
-const DEFAULT_LINE_HEIGHT = 0.8;
-const DEFAULT_BG_COLOR = "#000000";
-
-function validateOptions(options: LogoOptions): void {
-  if (options.text.length !== 2) {
-    throw new Error("Text must be exactly 2 characters.");
-  }
-}
+import { validateOptions } from "./validatert";
 
 function getGradientStyle(colors: string[]): string {
   return `linear-gradient(90deg, ${colors.join(", ")})`;
@@ -91,4 +87,14 @@ export function generateLogo(options: LogoOptions): HTMLDivElement {
   containerElement.appendChild(textElement);
 
   return containerElement;
+}
+
+export function generateSvg(options: LogoOptions): string {
+  const svg = getSvgNode(options);
+  return buildSVG(svg);
+}
+
+export function generateSvgElement(options: LogoOptions): SVGElement {
+  const svg = getSvgNode(options);
+  return buildSVGElement(svg);
 }
