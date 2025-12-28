@@ -1,51 +1,55 @@
 {
-  "name": "initial-logo",
-  "version": "0.1.0",
-  "description": "Generate JavaScript/TypeScript style logo",
-  "keywords": [
-    "logo",
-    "generator",
-    "typescript",
-    "javascript",
-    "initials",
-    "browser"
-  ],
-  "author": "saitogo555",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/saitogo555/initial-logo.js.git"
-  },
-  "bugs": {
-    "url": "https://github.com/saitogo555/initial-logo.js/issues"
-  },
-  "homepage": "https://github.com/saitogo555/initial-logo.js#readme",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    }
-  },
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "playground": "vite playground",
-    "prepublishOnly": "bun run build"
-  },
-  "devDependencies": {
-    "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.0"
-  }
+	"name": "initial-logo",
+	"version": "0.1.0",
+	"description": "Generate JavaScript/TypeScript style logo",
+	"keywords": [
+		"logo",
+		"generator",
+		"typescript",
+		"javascript",
+		"initials",
+		"browser"
+	],
+	"author": "saitogo555",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/saitogo555/initial-logo.js.git"
+	},
+	"bugs": {
+		"url": "https://github.com/saitogo555/initial-logo.js/issues"
+	},
+	"homepage": "https://github.com/saitogo555/initial-logo.js#readme",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js",
+			"require": "./dist/index.cjs"
+		}
+	},
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"publishConfig": {
+		"access": "public"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "tsup",
+		"dev": "tsup --watch",
+		"playground": "vite playground",
+		"format": "biome format --write",
+		"lint": "biome lint --write",
+		"check": "biome check --write",
+		"prepublishOnly": "bun run build"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.10",
+		"tsup": "^8.5.1",
+		"typescript": "^5.9.3",
+		"vite": "^7.3.0"
+	}
 }
