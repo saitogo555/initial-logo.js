@@ -1,4 +1,4 @@
-import { generateLogo } from "../src";
+import { generateLogo, generateSvgElement } from "../src";
 
 const options1 = {
   text: "TS",
@@ -59,4 +59,14 @@ if (divContainer) {
   divContainer.appendChild(generateLogo(options4));
   divContainer.appendChild(generateLogo(options5));
   divContainer.appendChild(generateLogo(options6));
+}
+
+const svgContainer = document.querySelector(".svg-container");
+if (svgContainer) {
+  svgContainer.appendChild(generateSvgElement(options1));
+  svgContainer.appendChild(generateSvgElement(options2));
+  svgContainer.appendChild(generateSvgElement(options3));
+  svgContainer.appendChild(generateSvgElement(options4));
+  svgContainer.appendChild(generateSvgElement(options5));
+  svgContainer.appendChild(generateSvgElement(options6));
 }
