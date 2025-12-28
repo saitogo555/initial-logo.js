@@ -1,19 +1,13 @@
+import {
+  DEFAULT_BG_COLOR,
+  DEFAULT_FONT_WEIGHT,
+  DEFAULT_LINE_HEIGHT,
+  DEFAULT_SIZE,
+  DEFAULT_TEXT_COLOR,
+} from "./constants";
+import { buildSVG, buildSVGElement, getSvgNode } from "./svg";
 import type { LogoOptions } from "./types";
-
-const DEFAULT_SIZE = 100;
-const DEFAULT_TEXT_COLOR = "#ffffff";
-const DEFAULT_FONT_SOURCE =
-  "https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap";
-const DEFAULT_FONT_FAMILY = "Inconsolata, monospace";
-const DEFAULT_FONT_WEIGHT = "bold";
-const DEFAULT_LINE_HEIGHT = 0.8;
-const DEFAULT_BG_COLOR = "#000000";
-
-function validateOptions(options: LogoOptions): void {
-  if (options.text.length !== 2) {
-    throw new Error("Text must be exactly 2 characters.");
-  }
-}
+import { validateOptions } from "./validatert";
 
 function getGradientStyle(colors: string[]): string {
   return `linear-gradient(90deg, ${colors.join(", ")})`;
@@ -39,27 +33,13 @@ function getContainerStyle(options: LogoOptions): Partial<CSSStyleDeclaration> {
   return style;
 }
 
-function loadFont(source: string): void {
-  if (typeof document === "undefined") return;
-
-  const existingLink = document.querySelector(`link[href="${source}"]`);
-  if (existingLink) return;
-
-  const link = document.createElement("link");
-  link.href = source;
-  link.rel = "stylesheet";
-  document.head.appendChild(link);
-}
-
 function getTextStyle(options: LogoOptions): Partial<CSSStyleDeclaration> {
   const size = options.size ?? DEFAULT_SIZE;
   const textColor = options.textColor ?? DEFAULT_TEXT_COLOR;
-  const fontFamily = options.fontFamily ?? DEFAULT_FONT_FAMILY;
   const fontSize = options.fontSize ?? Math.round(size * 0.65);
   const fontWeight = options.fontWeight ?? DEFAULT_FONT_WEIGHT;
   const lineHeight = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
   const style: Partial<CSSStyleDeclaration> = {
-    fontFamily: fontFamily,
     fontSize: `${fontSize}px`,
     fontWeight: fontWeight.toString(),
     lineHeight: lineHeight.toString(),
@@ -78,7 +58,6 @@ function getTextStyle(options: LogoOptions): Partial<CSSStyleDeclaration> {
 
 export function generateLogo(options: LogoOptions): HTMLDivElement {
   validateOptions(options);
-  loadFont(options.fontSource ?? DEFAULT_FONT_SOURCE);
 
   const containerElement = document.createElement("div");
   const textElement = document.createElement("span");
@@ -91,4 +70,14 @@ export function generateLogo(options: LogoOptions): HTMLDivElement {
   containerElement.appendChild(textElement);
 
   return containerElement;
+}
+
+export function generateSvg(options: LogoOptions): string {
+  const svg = getSvgNode(options);
+  return buildSVG(svg);
+}
+
+export function generateSvgElement(options: LogoOptions): SVGElement {
+  const svg = getSvgNode(options);
+  return buildSVGElement(svg);
 }
