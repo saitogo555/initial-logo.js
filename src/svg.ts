@@ -7,7 +7,7 @@ import {
   DEFAULT_BG_COLOR,
 } from "./constants";
 import type { LogoOptions, SVGNode } from "./types";
-import { validateOptions } from "./validatert";
+import { validateOptions } from "./validater";
 
 export function getSvgNode(options: LogoOptions): SVGNode {
   validateOptions(options);
