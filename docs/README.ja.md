@@ -63,6 +63,34 @@ const gradientLogo = generateLogo({
 });
 ```
 
+## CLI の使い方
+
+ターミナルから直接ロゴを生成することもできます。
+
+```bash
+# ロゴを生成してファイルに保存
+npx initial-logo -t TS -o logo.svg
+
+# 色やサイズをカスタマイズ
+npx initial-logo -t JS -s 200 --textColor "#000000" --backgroundColor "#f7df1e" -o js-logo.svg
+
+# グラデーションの例
+npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundColor "#222222" --backgroundColor "#444444" -o gradient.svg
+```
+
+### オプション
+
+| オプション | エイリアス | 説明 | デフォルト値 |
+|---|---|---|---|
+| `--text` | `-t` | ロゴのテキスト（必須） | - |
+| `--size` | `-s` | ロゴのサイズ（ピクセル） | `512` |
+| `--output` | `-o` | 出力ファイルパス | `stdout` |
+| `--textColor` | | テキストの色（複数指定でグラデーション） | `#ffffff` |
+| `--backgroundColor` | | 背景色（複数指定でグラデーション） | `#000000` |
+| `--fontSource` | | フォントソースの URL | - |
+| `--fontSize` | | フォントサイズ | - |
+| `--help` | `-h` | ヘルプを表示 | - |
+
 ## API
 
 ### `generateLogo(options: LogoOptions): HTMLDivElement`
