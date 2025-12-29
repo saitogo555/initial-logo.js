@@ -21,6 +21,9 @@
 	},
 	"homepage": "https://github.com/saitogo555/initial-logo.js#readme",
 	"type": "module",
+	"bin": {
+		"initial-logo": "./dist/cli.js"
+	},
 	"exports": {
 		".": {
 			"types": "./dist/index.d.ts",
