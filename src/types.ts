@@ -18,7 +18,7 @@ export interface SVGCoreAttrs {
   style?: string;
   lang?: string;
   tabindex?: number;
-  [key: string]: any; // Allow custom attributes
+  [key: string]: unknown;
 }
 
 export interface SVGPresentationAttrs {

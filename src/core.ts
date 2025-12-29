@@ -7,7 +7,7 @@ import {
 } from "./constants";
 import { buildSVG, buildSVGElement, getSvgNode } from "./svg";
 import type { LogoOptions } from "./types";
-import { validateOptions } from "./validatert";
+import { validateOptions } from "./validater";
 
 function getGradientStyle(colors: string[]): string {
   return `linear-gradient(90deg, ${colors.join(", ")})`;
