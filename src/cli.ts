@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
 import { generateSvg } from "./core";
