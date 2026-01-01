@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { writeFileSync } from "node:fs";
 import { parseArgs } from "node:util";
-import { generateSvg } from "./core";
+import { generateRawSvg } from "./core";
 import type { LogoOptions } from "./types";
 
 const { values, positionals } = parseArgs({
@@ -83,13 +83,13 @@ const options: LogoOptions = {
 };
 
 try {
-  const svg = generateSvg(options);
+  const rawSvg = generateRawSvg(options);
 
   if (values.output) {
-    writeFileSync(values.output, svg);
+    writeFileSync(values.output, rawSvg);
     console.log(`Generated SVG saved to ${values.output}`);
   } else {
-    console.log(svg);
+    console.log(rawSvg);
   }
 } catch (error) {
   console.error("Error generating SVG:", error);
