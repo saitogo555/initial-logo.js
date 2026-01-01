@@ -13,7 +13,7 @@ JavaScript/TypeScript スタイルのロゴ（四角形の中に2文字）を生
 - 🌈 **グラデーション**: 背景とテキストのグラデーションをサポート。
 - 🔤 **カスタムフォント**: Google Fonts などからフォントを簡単に読み込み。
 - ⚡ **軽量**: コアロジックに依存関係なし。
-- 🖼️ **複数のフォーマット**: HTML Div、SVG 文字列、SVG 要素を生成可能。
+- 🖼️ **複数のフォーマット**: HTML Div、SVG 文字列、SVG 要素、データ URL を生成可能。
 
 ## インストール
 
@@ -26,7 +26,12 @@ npm install initial-logo
 ## 使い方
 
 ```typescript
-import { generateLogo, generateSvg, generateSvgElement } from 'initial-logo';
+import {
+  generateLogo,
+  generateRawSvg,
+  generateSvgDataUrl,
+  generateSvgElement,
+} from 'initial-logo';
 
 // HTML Div 要素の生成
 const logo = generateLogo({
@@ -38,10 +43,17 @@ const logo = generateLogo({
 document.body.appendChild(logo);
 
 // SVG 文字列の生成
-const svgString = generateSvg({
+const svgString = generateRawSvg({
   text: 'JS',
   textColor: '#000000',
   backgroundColor: '#f7df1e',
+});
+
+// SVG データ URL 文字列の生成（img/src や CSS で利用可能）
+const dataUrl = generateSvgDataUrl({
+  text: 'DN',
+  textColor: '#ffffff',
+  backgroundColor: '#000000',
 });
 
 // SVG 要素の生成
@@ -83,7 +95,7 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 | オプション | エイリアス | 説明 | デフォルト値 |
 |---|---|---|---|
 | `--text` | `-t` | ロゴのテキスト（必須） | - |
-| `--size` | `-s` | ロゴのサイズ（ピクセル） | `512` |
+| `--size` | `-s` | ロゴのサイズ（ピクセル） | `100` |
 | `--output` | `-o` | 出力ファイルパス | `stdout` |
 | `--textColor` | | テキストの色（複数指定でグラデーション） | `#ffffff` |
 | `--backgroundColor` | | 背景色（複数指定でグラデーション） | `#000000` |
@@ -97,9 +109,13 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 
 ロゴを HTML `div` 要素として生成します。
 
-### `generateSvg(options: LogoOptions): string`
+### `generateRawSvg(options: LogoOptions): string`
 
 ロゴを SVG 文字列として生成します。
+
+### `generateSvgDataUrl(options: LogoOptions): string`
+
+ロゴをデータ URL 文字列（`data:image/svg+xml;...`）として生成します。
 
 ### `generateSvgElement(options: LogoOptions): SVGElement`
 
@@ -109,12 +125,13 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 
 | プロパティ | 型 | デフォルト値 | 説明 |
 |---|---|---|---|
-| `text` | `string` | (必須) | 表示する2文字。 |
+| `text` | `string` | (必須) | 表示する2文字（必ず2文字）。 |
 | `size` | `number` | `100` | 四角形のサイズ（ピクセル）。 |
 | `textColor` | `string \| string[]` | `'#ffffff'` | テキストの色。配列を渡すとグラデーションになります。 |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | 背景色。配列を渡すとグラデーションになります。 |
 | `fontSource` | `string` | (埋め込み JetBrains Mono) | フォントを読み込む URL (WOFF2形式推奨)。 |
-| `fontSize` | `number` | `Math.round(size * 0.65)` | フォントサイズ（ピクセル）。 |
+| `fontFamily` | `string` | (自動生成) | 使用するフォントファミリー名。 |
+| `fontSize` | `number` | HTML 生成時は `Math.round(size * 0.65)`、SVG 生成時は `Math.round(size * 0.525)` | フォントサイズ（ピクセル）。 |
 | `fontWeight` | `string \| number` | `'800'` | CSS font-weight。 |
 | `lineHeight` | `string \| number` | `0.8` | CSS line-height。 |
 
