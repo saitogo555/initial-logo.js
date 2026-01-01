@@ -13,7 +13,7 @@ Generate JavaScript/TypeScript style logos (2 characters inside a square) easily
 - 🌈 **Gradients**: Support for gradient backgrounds and text.
 - 🔤 **Custom Fonts**: Easily load fonts from Google Fonts or other sources.
 - ⚡ **Lightweight**: Zero dependencies for the core logic.
-- 🖼️ **Multiple Formats**: Generate HTML Divs, SVG strings, or SVG Elements.
+- 🖼️ **Multiple Formats**: Generate HTML Divs, SVG strings, SVG Elements, or data URLs.
 
 ## Installation
 
@@ -26,7 +26,12 @@ npm install initial-logo
 ## Usage
 
 ```typescript
-import { generateLogo, generateSvg, generateSvgElement } from 'initial-logo';
+import {
+  generateLogo,
+  generateRawSvg,
+  generateSvgDataUrl,
+  generateSvgElement,
+} from 'initial-logo';
 
 // Generate HTML Div Element
 const logo = generateLogo({
@@ -38,10 +43,17 @@ const logo = generateLogo({
 document.body.appendChild(logo);
 
 // Generate SVG String
-const svgString = generateSvg({
+const svgString = generateRawSvg({
   text: 'JS',
   textColor: '#000000',
   backgroundColor: '#f7df1e',
+});
+
+// Generate SVG Data URL string (usable in img/src, CSS, etc.)
+const dataUrl = generateSvgDataUrl({
+  text: 'DN',
+  textColor: '#ffffff',
+  backgroundColor: '#000000',
 });
 
 // Generate SVG Element
@@ -83,7 +95,7 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 | Option | Alias | Description | Default |
 |---|---|---|---|
 | `--text` | `-t` | Logo text (required) | - |
-| `--size` | `-s` | Logo size in pixels | `512` |
+| `--size` | `-s` | Logo size in pixels | `100` |
 | `--output` | `-o` | Output file path | `stdout` |
 | `--textColor` | | Text color (repeat for gradient) | `#ffffff` |
 | `--backgroundColor` | | Background color (repeat for gradient) | `#000000` |
@@ -97,9 +109,13 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 
 Generates a logo as an HTML `div` element.
 
-### `generateSvg(options: LogoOptions): string`
+### `generateRawSvg(options: LogoOptions): string`
 
 Generates a logo as an SVG string.
+
+### `generateSvgDataUrl(options: LogoOptions): string`
+
+Generates a logo as a data URL string (`data:image/svg+xml;...`).
 
 ### `generateSvgElement(options: LogoOptions): SVGElement`
 
@@ -109,12 +125,13 @@ Generates a logo as an SVG DOM element.
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `text` | `string` | (Required) | The 2 characters to display. |
+| `text` | `string` | (Required) | Exactly 2 characters to display. |
 | `size` | `number` | `100` | Size of the square in pixels. |
 | `textColor` | `string \| string[]` | `'#ffffff'` | Text color. Pass an array for gradient. |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | Background color. Pass an array for gradient. |
 | `fontSource` | `string` | (Embedded JetBrains Mono) | URL to load the font from (WOFF2 format recommended). |
-| `fontSize` | `number` | `Math.round(size * 0.65)` | Font size in pixels. |
+| `fontFamily` | `string` | (Auto-generated) | Font family name to use. |
+| `fontSize` | `number` | `Math.round(size * 0.65)` for HTML, `Math.round(size * 0.525)` for SVG | Font size in pixels. |
 | `fontWeight` | `string \| number` | `'800'` | CSS font-weight. |
 | `lineHeight` | `string \| number` | `0.8` | CSS line-height. |
 
