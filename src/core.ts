@@ -5,7 +5,7 @@ import {
   DEFAULT_SIZE,
   DEFAULT_TEXT_COLOR,
 } from "./constants";
-import { buildSVG, buildSVGElement, getSvgNode } from "./svg";
+import { buildRawSVG, buildSVGElement, getSvgNode } from "./svg";
 import type { LogoOptions } from "./types";
 import { validateOptions } from "./validater";
 
@@ -72,14 +72,14 @@ export function generateLogo(options: LogoOptions): HTMLDivElement {
   return containerElement;
 }
 
-export function generateSvg(options: LogoOptions): string {
+export function generateRawSvg(options: LogoOptions): string {
   const svg = getSvgNode(options);
-  return buildSVG(svg);
+  return buildRawSVG(svg);
 }
 
 export function generateSvgDataUrl(options: LogoOptions): string {
   const svgNode = getSvgNode(options);
-  const rawSvg = buildSVG(svgNode);
+  const rawSvg = buildRawSVG(svgNode);
   const encodedSvg = encodeURIComponent(rawSvg)
     .replace(/'/g, "%27")
     .replace(/"/g, "%22");
