@@ -77,6 +77,16 @@ export function generateSvg(options: LogoOptions): string {
   return buildSVG(svg);
 }
 
+export function generateSvgDataUrl(options: LogoOptions): string {
+  const svgNode = getSvgNode(options);
+  const rawSvg = buildSVG(svgNode);
+  const encodedSvg = encodeURIComponent(rawSvg)
+    .replace(/'/g, "%27")
+    .replace(/"/g, "%22");
+
+  return `data:image/svg+xml;charset=UTF-8,${encodedSvg}`;
+}
+
 export function generateSvgElement(options: LogoOptions): SVGElement {
   const svg = getSvgNode(options);
   return buildSVGElement(svg);
