@@ -1,6 +1,13 @@
-import { generateLogo, generateSvgElement } from "../src";
+import {
+  generateLogo,
+  generateSvgElement,
+  generateSvgDataUrl,
+  generateRawSvg,
+} from "../src";
+import type { LogoOptions } from "../src";
 
-const options1 = {
+// 基本的な例
+const basicOptions: LogoOptions = {
   text: "TS",
   size: 100,
   textColor: "#ffffff",
@@ -8,39 +15,40 @@ const options1 = {
   backgroundColor: "#3178c6",
 };
 
-const options2 = {
+// サイズ違い
+const largeOptions: LogoOptions = {
   text: "JS",
   size: 150,
   textColor: "#000000",
   backgroundColor: "#f7df1e",
 };
 
-// Gradient Background
-const options3 = {
+// グラデーション背景
+const gradientBgOptions: LogoOptions = {
   text: "GR",
   size: 120,
   textColor: "#ffffff",
-  backgroundColor: ["#ff0000", "#0000ff"],
+  backgroundColor: ["#667eea", "#764ba2"],
 };
 
-// Gradient Text
-const options4 = {
+// グラデーションテキスト
+const gradientTextOptions: LogoOptions = {
   text: "TX",
   size: 120,
-  textColor: ["#ff0000", "#ffff00"],
-  backgroundColor: "#000000",
+  textColor: ["#f093fb", "#f5576c"],
+  backgroundColor: "#1a1a2e",
 };
 
-// Both Gradients
-const options5 = {
+// 両方グラデーション
+const bothGradientOptions: LogoOptions = {
   text: "BG",
   size: 120,
-  textColor: ["#00ffff", "#ff00ff"],
-  backgroundColor: ["#222222", "#444444"],
+  textColor: ["#4facfe", "#00f2fe"],
+  backgroundColor: ["#43e97b", "#38f9d7"],
 };
 
-// Custom Font
-const options6 = {
+// カスタムフォント
+const customFontOptions: LogoOptions = {
   text: "CF",
   size: 120,
   textColor: "#ffffff",
@@ -48,25 +56,70 @@ const options6 = {
   fontSource:
     "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap",
   fontFamily: "'Noto Sans JP', sans-serif",
-  fontWeight: 100,
+  fontWeight: 900,
 };
 
+const allOptions = [
+  basicOptions,
+  largeOptions,
+  gradientBgOptions,
+  gradientTextOptions,
+  bothGradientOptions,
+  customFontOptions,
+];
+
+// 1. HTMLDivElement
 const divContainer = document.querySelector(".div-container");
 if (divContainer) {
-  divContainer.appendChild(generateLogo(options1));
-  divContainer.appendChild(generateLogo(options2));
-  divContainer.appendChild(generateLogo(options3));
-  divContainer.appendChild(generateLogo(options4));
-  divContainer.appendChild(generateLogo(options5));
-  divContainer.appendChild(generateLogo(options6));
+  for (const opts of allOptions) {
+    divContainer.appendChild(generateLogo(opts));
+  }
 }
 
+// 2. SVGElement
 const svgContainer = document.querySelector(".svg-container");
 if (svgContainer) {
-  svgContainer.appendChild(generateSvgElement(options1));
-  svgContainer.appendChild(generateSvgElement(options2));
-  svgContainer.appendChild(generateSvgElement(options3));
-  svgContainer.appendChild(generateSvgElement(options4));
-  svgContainer.appendChild(generateSvgElement(options5));
-  svgContainer.appendChild(generateSvgElement(options6));
+  for (const opts of allOptions) {
+    svgContainer.appendChild(generateSvgElement(opts));
+  }
+}
+
+// 3. SVG Data URL
+const dataUrlContainer = document.querySelector(".dataurl-container");
+if (dataUrlContainer) {
+  for (const opts of allOptions) {
+    const dataUrl = generateSvgDataUrl(opts);
+    const img = document.createElement("img");
+    img.src = dataUrl;
+    img.alt = `Logo: ${opts.text}`;
+    img.style.display = "block";
+    dataUrlContainer.appendChild(img);
+  }
+}
+
+// 4. Raw SVG String
+const rawSvgDisplay = document.querySelector(".raw-svg-display");
+if (rawSvgDisplay) {
+  for (const opts of allOptions) {
+    const rawSvg = generateRawSvg(opts);
+    const wrapper = document.createElement("div");
+    wrapper.className = "raw-svg-item";
+
+    const label = document.createElement("h3");
+    label.textContent = `Logo: ${opts.text}`;
+
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+    code.textContent = rawSvg;
+    pre.appendChild(code);
+
+    const preview = document.createElement("div");
+    preview.className = "raw-svg-preview";
+    preview.innerHTML = rawSvg;
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(preview);
+    wrapper.appendChild(pre);
+    rawSvgDisplay.appendChild(wrapper);
+  }
 }
