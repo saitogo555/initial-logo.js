@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,15 +7,33 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Initial Logo Playground</h1>
-    <section>
-      <h2>Div Element</h2>
-      <div class="container div-container"></div>
-    </section>
-    <section>
-      <h2>SVG Element</h2>
-      <div class="container svg-container"></div>
-    </section>
+    <div class="wrapper">
+      <h1>Initial Logo Playground</h1>
+      
+      <section>
+        <h2>1. HTMLDivElement (generateLogo)</h2>
+        <p class="description">ブラウザ環境でのみ動作。CSSスタイルを適用したHTMLエレメントを生成。</p>
+        <div class="container div-container"></div>
+      </section>
+
+      <section>
+        <h2>2. SVGElement (generateSvgElement)</h2>
+        <p class="description">ブラウザ環境でのみ動作。DOM操作可能なSVG要素を生成。</p>
+        <div class="container svg-container"></div>
+      </section>
+
+      <section>
+        <h2>3. SVG Data URL (generateSvgDataUrl)</h2>
+        <p class="description">imgタグのsrcやCSSのbackground-imageで使用可能なData URLを生成。</p>
+        <div class="container dataurl-container"></div>
+      </section>
+
+      <section>
+        <h2>4. Raw SVG String (generateRawSvg)</h2>
+        <p class="description">汎用的なSVG文字列。Node.js環境でも使用可能。ファイル保存やメール送信などに最適。</p>
+        <div class="raw-svg-display"></div>
+      </section>
+    </div>
     <script type="module" src="./main.ts"></script>
   </body>
 </html>
