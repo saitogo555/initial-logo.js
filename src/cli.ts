@@ -21,17 +21,21 @@ const { values, positionals } = parseArgs({
     },
     textColor: {
       type: "string",
+      short: "T",
       multiple: true,
     },
     backgroundColor: {
       type: "string",
+      short: "B",
       multiple: true,
     },
     fontSource: {
       type: "string",
+      short: "f",
     },
     fontSize: {
       type: "string",
+      short: "F",
     },
     help: {
       type: "boolean",
@@ -49,10 +53,10 @@ Options:
   -t, --text <text>            Logo text (required)
   -s, --size <number>          Logo size (default: 512)
   -o, --output <path>          Output file path (default: stdout)
-  --textColor <color>          Text color (can be specified multiple times for gradient)
-  --backgroundColor <color>    Background color (can be specified multiple times for gradient)
-  --fontSource <url>           Font source URL
-  --fontSize <number>          Font size
+  -c, --textColor <color>          Text color (can be specified multiple times for gradient)
+  -b, --backgroundColor <color>    Background color (can be specified multiple times for gradient)
+  -f, --fontSource <url>           Font source URL
+  -F, --fontSize <number>          Font size
   -h, --help                   Display this help message
 `);
   process.exit(0);
