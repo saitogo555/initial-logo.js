@@ -82,7 +82,9 @@ export function generateSvgDataUrl(options: LogoOptions): string {
   const rawSvg = buildRawSVG(svgNode);
   const encodedSvg = encodeURIComponent(rawSvg)
     .replace(/'/g, "%27")
-    .replace(/"/g, "%22");
+    .replace(/"/g, "%22")
+    .replace(/\(/g, "%28")
+    .replace(/\)/g, "%29");
 
   return `data:image/svg+xml;charset=UTF-8,${encodedSvg}`;
 }
