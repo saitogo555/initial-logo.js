@@ -9,6 +9,15 @@ import {
 import type { LogoOptions, SVGNode } from "./types";
 import { validateOptions } from "./validater";
 
+function escapeXml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
 export function getSvgNode(options: LogoOptions): SVGNode {
   validateOptions(options);
   const id = Math.random().toString(16).substring(2, 10);
@@ -122,16 +131,16 @@ export function buildRawSVG(svg: SVGNode): string {
 
   const attrString = attrs
     ? Object.entries(attrs)
-        .map(([key, value]) => `${key}="${value}"`)
+        .map(([key, value]) => `${key}="${escapeXml(String(value))}"`)
         .join(" ")
-    : "";
+        : "";
 
   const openingTag = attrString ? `<${tag} ${attrString}>` : `<${tag}>`;
 
   const childrenString = children
     ? children
         .map((child) =>
-          typeof child === "string" ? child : buildRawSVG(child as SVGNode)
+          typeof child === "string" ? escapeXml(child) : buildRawSVG(child as SVGNode)
         )
         .join("")
     : "";
