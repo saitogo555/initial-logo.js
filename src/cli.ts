@@ -51,10 +51,10 @@ Usage: initial-logo [options]
 
 Options:
   -t, --text <text>            Logo text (required)
-  -s, --size <number>          Logo size (default: 512)
+  -s, --size <number>          Logo size (default: 100)
   -o, --output <path>          Output file path (default: stdout)
-  -c, --textColor <color>          Text color (can be specified multiple times for gradient)
-  -b, --backgroundColor <color>    Background color (can be specified multiple times for gradient)
+  -T, --textColor <color>          Text color (can be specified multiple times for gradient)
+  -B, --backgroundColor <color>    Background color (can be specified multiple times for gradient)
   -f, --fontSource <url>           Font source URL
   -F, --fontSize <number>          Font size
   -h, --help                   Display this help message
