@@ -52,7 +52,7 @@ Usage: initial-logo [options]
 Options:
   -t, --text <text>            Logo text (required)
   -s, --size <number>          Logo size (default: 100)
-  -o, --output <path>          Output file path (default: stdout)
+  -o, --output <path>          Output file path (default: initial-logo.svg)
   -T, --textColor <color>          Text color (can be specified multiple times for gradient)
   -B, --backgroundColor <color>    Background color (can be specified multiple times for gradient)
   -f, --fontSource <url>           Font source URL
@@ -89,12 +89,9 @@ const options: LogoOptions = {
 try {
   const rawSvg = generateRawSvg(options);
 
-  if (values.output) {
-    writeFileSync(values.output, rawSvg);
-    console.log(`Generated SVG saved to ${values.output}`);
-  } else {
-    console.log(rawSvg);
-  }
+  const outputPath = values.output ?? "initial-logo.svg";
+  writeFileSync(outputPath, rawSvg);
+  console.log(`Generated SVG saved to ${outputPath}`);
 } catch (error) {
   console.error("Error generating SVG:", error);
   process.exit(1);
