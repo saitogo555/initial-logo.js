@@ -21,17 +21,21 @@ const { values, positionals } = parseArgs({
     },
     textColor: {
       type: "string",
+      short: "T",
       multiple: true,
     },
     backgroundColor: {
       type: "string",
+      short: "B",
       multiple: true,
     },
     fontSource: {
       type: "string",
+      short: "f",
     },
     fontSize: {
       type: "string",
+      short: "F",
     },
     help: {
       type: "boolean",
@@ -47,12 +51,12 @@ Usage: initial-logo [options]
 
 Options:
   -t, --text <text>            Logo text (required)
-  -s, --size <number>          Logo size (default: 512)
-  -o, --output <path>          Output file path (default: stdout)
-  --textColor <color>          Text color (can be specified multiple times for gradient)
-  --backgroundColor <color>    Background color (can be specified multiple times for gradient)
-  --fontSource <url>           Font source URL
-  --fontSize <number>          Font size
+  -s, --size <number>          Logo size (default: 100)
+  -o, --output <path>          Output file path (default: initial-logo.svg)
+  -T, --textColor <color>          Text color (can be specified multiple times for gradient)
+  -B, --backgroundColor <color>    Background color (can be specified multiple times for gradient)
+  -f, --fontSource <url>           Font source URL
+  -F, --fontSize <number>          Font size
   -h, --help                   Display this help message
 `);
   process.exit(0);
@@ -85,12 +89,9 @@ const options: LogoOptions = {
 try {
   const rawSvg = generateRawSvg(options);
 
-  if (values.output) {
-    writeFileSync(values.output, rawSvg);
-    console.log(`Generated SVG saved to ${values.output}`);
-  } else {
-    console.log(rawSvg);
-  }
+  const outputPath = values.output ?? "initial-logo.svg";
+  writeFileSync(outputPath, rawSvg);
+  console.log(`Generated SVG saved to ${outputPath}`);
 } catch (error) {
   console.error("Error generating SVG:", error);
   process.exit(1);
