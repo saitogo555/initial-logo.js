@@ -97,10 +97,10 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 | `--text` | `-t` | Logo text (required) | - |
 | `--size` | `-s` | Logo size in pixels | `100` |
 | `--output` | `-o` | Output file path | `stdout` |
-| `--textColor` | | Text color (repeat for gradient) | `#ffffff` |
-| `--backgroundColor` | | Background color (repeat for gradient) | `#000000` |
-| `--fontSource` | | Font source URL | - |
-| `--fontSize` | | Font size | - |
+| `--textColor` | `-T` | Text color (repeat for gradient) | `#ffffff` |
+| `--backgroundColor` | `-B` | Background color (repeat for gradient) | `#000000` |
+| `--fontSource` | `-f` | Font source URL | - |
+| `--fontSize` | `-F` | Font size | - |
 | `--help` | `-h` | Display help message | - |
 
 ## API
