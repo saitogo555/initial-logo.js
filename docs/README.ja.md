@@ -97,10 +97,10 @@ npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundC
 | `--text` | `-t` | ロゴのテキスト（必須） | - |
 | `--size` | `-s` | ロゴのサイズ（ピクセル） | `100` |
 | `--output` | `-o` | 出力ファイルパス | `stdout` |
-| `--textColor` | | テキストの色（複数指定でグラデーション） | `#ffffff` |
-| `--backgroundColor` | | 背景色（複数指定でグラデーション） | `#000000` |
-| `--fontSource` | | フォントソースの URL | - |
-| `--fontSize` | | フォントサイズ | - |
+| `--textColor` | `-T` | テキストの色（複数指定でグラデーション） | `#ffffff` |
+| `--backgroundColor` | `-B` | 背景色（複数指定でグラデーション） | `#000000` |
+| `--fontSource` | `-f` | フォントソースの URL | - |
+| `--fontSize` | `-F` | フォントサイズ | - |
 | `--help` | `-h` | ヘルプを表示 | - |
 
 ## API
