@@ -90,13 +90,21 @@ npx initial-logo -t JS -s 200 --textColor "#000000" --backgroundColor "#f7df1e" 
 npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundColor "#222222" --backgroundColor "#444444" -o gradient.svg
 ```
 
+Note: If `--output` is not specified, the CLI writes the generated SVG to `initial-logo.svg` in the current directory.
+
+```bash
+# Generate using default output filename
+npx initial-logo -t TS
+# This will create ./initial-logo.svg
+```
+
 ### Options
 
 | Option | Alias | Description | Default |
 |---|---|---|---|
 | `--text` | `-t` | Logo text (required) | - |
 | `--size` | `-s` | Logo size in pixels | `100` |
-| `--output` | `-o` | Output file path | `stdout` |
+| `--output` | `-o` | Output file path | `initial-logo.svg` |
 | `--textColor` | `-T` | Text color (repeat for gradient) | `#ffffff` |
 | `--backgroundColor` | `-B` | Background color (repeat for gradient) | `#000000` |
 | `--fontSource` | `-f` | Font source URL | - |
