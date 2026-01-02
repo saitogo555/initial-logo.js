@@ -90,17 +90,25 @@ npx initial-logo -t JS -s 200 --textColor "#000000" --backgroundColor "#f7df1e" 
 npx initial-logo -t GR --textColor "#ff0000" --textColor "#0000ff" --backgroundColor "#222222" --backgroundColor "#444444" -o gradient.svg
 ```
 
+注: `--output` を指定しない場合、生成された SVG はカレントディレクトリに `initial-logo.svg` として保存されます。
+
+```bash
+# デフォルトのファイル名で生成
+npx initial-logo -t TS
+# -> ./initial-logo.svg が生成されます
+```
+
 ### オプション
 
 | オプション | エイリアス | 説明 | デフォルト値 |
 |---|---|---|---|
 | `--text` | `-t` | ロゴのテキスト（必須） | - |
 | `--size` | `-s` | ロゴのサイズ（ピクセル） | `100` |
-| `--output` | `-o` | 出力ファイルパス | `stdout` |
-| `--textColor` | | テキストの色（複数指定でグラデーション） | `#ffffff` |
-| `--backgroundColor` | | 背景色（複数指定でグラデーション） | `#000000` |
-| `--fontSource` | | フォントソースの URL | - |
-| `--fontSize` | | フォントサイズ | - |
+| `--output` | `-o` | 出力ファイルパス | `initial-logo.svg` |
+| `--textColor` | `-T` | テキストの色（複数指定でグラデーション） | `#ffffff` |
+| `--backgroundColor` | `-B` | 背景色（複数指定でグラデーション） | `#000000` |
+| `--fontSource` | `-f` | フォントソースの URL | - |
+| `--fontSize` | `-F` | フォントサイズ | - |
 | `--help` | `-h` | ヘルプを表示 | - |
 
 ## API
