@@ -14,9 +14,8 @@ Your goal is to accurately understand code changes and update the English (`READ
 
 1. **Context Analysis**
 
-   - Execute `git log --oneline -30` to retrieve the last 30 commits and identify relevant changes.
-   - For each significant commit, use `git show <commit-hash>` or `git diff <commit-hash>^ <commit-hash>` to examine detailed changes.
-   - Analyze the current workspace changes (Staged/Unstaged) using `git diff` and `git diff --cached`.
+   - Investigate the entire project codebase to understand the current implementation and identify relevant changes.
+   - Read source files and configuration files to capture the latest features and behavior.
    - **Decision Criteria**: Does this change require a documentation update? (If it is merely internal refactoring or a minor fix with no user-facing impact, determine that no update is needed and exit).
    - Identify the type of change (Feature Addition / Breaking Change / Deprecation / Bug Fix).
    - Check `package.json` for version changes to determine if this is a release-related update.
