@@ -1,7 +1,4 @@
 import {
-  generateLogo,
-  generateSvgElement,
-  generateSvgDataUrl,
   generateRawSvg,
 } from "../src";
 import type { LogoOptions } from "../src";
@@ -67,35 +64,6 @@ const allOptions = [
   bothGradientOptions,
   customFontOptions,
 ];
-
-// 1. HTMLDivElement
-const divContainer = document.querySelector(".div-container");
-if (divContainer) {
-  for (const opts of allOptions) {
-    divContainer.appendChild(generateLogo(opts));
-  }
-}
-
-// 2. SVGElement
-const svgContainer = document.querySelector(".svg-container");
-if (svgContainer) {
-  for (const opts of allOptions) {
-    svgContainer.appendChild(generateSvgElement(opts));
-  }
-}
-
-// 3. SVG Data URL
-const dataUrlContainer = document.querySelector(".dataurl-container");
-if (dataUrlContainer) {
-  for (const opts of allOptions) {
-    const dataUrl = generateSvgDataUrl(opts);
-    const img = document.createElement("img");
-    img.src = dataUrl;
-    img.alt = `Logo: ${opts.text}`;
-    img.style.display = "block";
-    dataUrlContainer.appendChild(img);
-  }
-}
 
 // 4. Raw SVG String
 const rawSvgDisplay = document.querySelector(".raw-svg-display");
