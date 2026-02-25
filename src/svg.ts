@@ -18,7 +18,7 @@ function escapeXml(str: string): string {
     .replace(/'/g, "&apos;");
 }
 
-export function getSvgNode(options: LogoOptions): SVGNode {
+export function buildSvgNode(options: LogoOptions): SVGNode {
   validateOptions(options);
   const id = Math.random().toString(16).substring(2, 10);
   const size = options.size ?? DEFAULT_SIZE;
@@ -61,6 +61,7 @@ export function getSvgNode(options: LogoOptions): SVGNode {
   }
 
   if (Array.isArray(options.textColor)) {
+    const textColors = options.textColor;
     gradients.push({
       tag: "linearGradient",
       attrs: {
@@ -70,10 +71,10 @@ export function getSvgNode(options: LogoOptions): SVGNode {
         x2: "100%",
         y2: "0%",
       },
-      children: options.textColor.map((color, index) => ({
+      children: textColors.map((color, index) => ({
         tag: "stop",
         attrs: {
-          offset: `${(index / (options.textColor!.length - 1)) * 100}%`,
+          offset: `${(index / (textColors.length - 1)) * 100}%`,
           "stop-color": color,
         },
         children: [],
@@ -148,35 +149,4 @@ export function buildRawSVG(svg: SVGNode): string {
   const closingTag = `</${tag}>`;
 
   return `${openingTag}${childrenString}${closingTag}`;
-}
-
-export function buildSVGElement(svg: SVGNode): SVGElement {
-  if (typeof document === "undefined") {
-    throw new Error(
-      "Document is not defined. This function can only be used in a browser environment."
-    );
-  }
-
-  const { tag, attrs, children } = svg;
-  const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
-
-  if (attrs) {
-    Object.entries(attrs).forEach(([key, value]) => {
-      if (value !== undefined && value !== null) {
-        element.setAttribute(key, String(value));
-      }
-    });
-  }
-
-  if (children) {
-    children.forEach((child) => {
-      if (typeof child === "string") {
-        element.textContent = child;
-      } else {
-        element.appendChild(buildSVGElement(child));
-      }
-    });
-  }
-
-  return element;
 }
