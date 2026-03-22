@@ -98,9 +98,9 @@ npx initial-logo -t TS -r 16 -w 700 -a bottom-right -o logo.svg
 | `--backgroundColor` | `-B` | 背景色 — 複数指定でグラデーション | `#000000` |
 | `--textGradientType` | | テキストのグラデーション種別: `linear` \| `radial` | `linear` |
 | `--bgGradientType` | | 背景のグラデーション種別: `linear` \| `radial` | `linear` |
-| `--fontSource` | `-f` | フォントの URL またはローカルファイルパス | Raleway 900 (jsDelivr) |
+| `--fontSource` | `-f` | フォントの URL またはローカルファイルパス | Raleway 700 (jsDelivr) |
 | `--fontSize` | `-F` | フォントサイズ（ピクセル） | `Math.round(size * 0.525)` |
-| `--fontWeight` | `-w` | フォントウェイト | `900` |
+| `--fontWeight` | `-w` | フォントウェイト | `700` |
 | `--borderRadius` | `-r` | 角丸の半径（ピクセル） | `0` |
 | `--textAnchor` | `-a` | テキストの配置位置（下記参照） | `center` |
 | `--help` | `-h` | ヘルプを表示 | - |
@@ -123,9 +123,9 @@ npx initial-logo -t TS -r 16 -w 700 -a bottom-right -o logo.svg
 | `textGradientType` | `'linear' \| 'radial'` | `'linear'` | テキストのグラデーション種別。`textColor` が配列のときのみ有効。 |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | 背景色。2色以上の配列でグラデーションになります。 |
 | `backgroundGradientType` | `'linear' \| 'radial'` | `'linear'` | 背景のグラデーション種別。`backgroundColor` が配列のときのみ有効。 |
-| `fontSource` | `string \| ArrayBuffer` | Raleway 900 (jsDelivr CDN) | フォントの URL または WOFF2/TTF の `ArrayBuffer`。 |
+| `fontSource` | `string \| ArrayBuffer` | Raleway 700 (jsDelivr CDN) | フォントの URL または WOFF2/TTF の `ArrayBuffer`。 |
 | `fontSize` | `number` | `Math.round(size * 0.525)` | フォントサイズ（ピクセル）。 |
-| `fontWeight` | `string \| number` | `900` | フォントウェイト。 |
+| `fontWeight` | `string \| number` | `700` | フォントウェイト。 |
 | `borderRadius` | `number` | `0` | 四角形の角丸半径（ピクセル）。 |
 | `textAnchor` | `TextAnchorPosition` | `'center'` | 四角形内のテキスト配置位置。 |
 

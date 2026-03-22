@@ -1,4 +1,4 @@
-import { For, Show } from "solid-js";
+import { Index, Show } from "solid-js";
 import type { GradientType } from "../../../src/types";
 import { uid } from "../lib/utils";
 import type { ColorStop } from "../types";
@@ -80,24 +80,24 @@ export function ColorSection(props: ColorSectionProps) {
 
 			{/* Color stop list */}
 			<ul class="space-y-2 list-none m-0 p-0">
-				<For each={props.colors()}>
+				<Index each={props.colors()}>
 					{(stop, i) => (
 						<ColorStopRow
 							stop={stop}
-							index={i()}
+							index={i}
 							label={props.label}
 							isGradient={props.gradient()}
 							isDeleteDisabled={props.colors().length <= 2}
 							onUpdate={update}
 							onRemove={remove}
 							onDragStart={(e) => {
-								dragFrom = i();
+								dragFrom = i;
 								if (e.dataTransfer) e.dataTransfer.effectAllowed = "move";
 							}}
 							onDragOver={(e) => {
 								e.preventDefault();
 								if (!props.gradient() || dragFrom < 0) return;
-								const to = i();
+								const to = i;
 								if (dragFrom !== to) {
 									reorder(dragFrom, to);
 									dragFrom = to;
@@ -108,7 +108,7 @@ export function ColorSection(props: ColorSectionProps) {
 							}}
 						/>
 					)}
-				</For>
+				</Index>
 			</ul>
 
 			{/* Add color button */}
