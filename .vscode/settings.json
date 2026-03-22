@@ -1,10 +1,7 @@
 {
-  "github.copilot.chat.commitMessageGeneration.instructions": [
-    {
-      "text": "Generate commit messages following the Conventional Commits specification."
-    },
-    {
-      "file": ".github/instructions/commit-message.instructions.md"
-    }
-  ]
+	"github.copilot.chat.commitMessageGeneration.instructions": [
+		{
+			"file": ".github/instructions/commit-message.instructions.md"
+		}
+	]
 }
