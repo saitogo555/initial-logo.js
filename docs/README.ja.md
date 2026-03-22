@@ -1,5 +1,7 @@
 # initial-logo.js
 
+![banner](../images/banner.webp)
+
 [🇺🇸 English](../README.md) | [🇯🇵 日本語](README.ja.md)
 
 ![npm version](https://img.shields.io/npm/v/initial-logo)
