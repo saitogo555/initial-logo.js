@@ -12,15 +12,15 @@ Before generating the message, analyze the file paths in the diff. You MUST foll
 
 ### 📂 Strict Mapping Table (File Path -> Type)
 
-| Changed File Path                   | Allowed Types                     | Forbidden Types                        |
-| :---------------------------------- | :-------------------------------- | :------------------------------------- |
-| **`src/**/\*.ts`\*\* (Library Code) | `feat`, `fix`, `perf`, `refactor` | `chore`, `ci`                          |
-| **`docs/**`, `README.md`\*\*        | `docs`                            | `feat`, `fix`, `perf`                  |
-| **`.github/**`, `tsconfig.json`\*\* | `ci`, `chore`                     | **`feat`, `fix` (STRICTLY FORBIDDEN)** |
-| **`examples/**`\*\*                 | `chore`                           | `feat`, `fix`                          |
-| **`test/**`\*\*                     | `test`                            | `feat`, `fix`                          |
+| Changed File Path                                                               | Allowed Types                     | Forbidden Types                        |
+| :------------------------------------------------------------------------------ | :-------------------------------- | :------------------------------------- |
+| **`src/**/*.ts`** (Library Code, excluding `*.test.ts`)                         | `feat`, `fix`, `perf`, `refactor` | `chore`, `ci`, `test`                  |
+| **`src/**/*.test.ts`** (Test Code)                                              | `test`                            | `feat`, `fix`                          |
+| **`docs/**`, `README.md`**                                                      | `docs`                            | `feat`, `fix`, `perf`                  |
+| **`.github/**`, `tsconfig.json`, `biome.json`, `tsup.config.ts`, `package.json`, `vitest.config.ts`** | `ci`, `chore` | **`feat`, `fix` (STRICTLY FORBIDDEN)** |
+| **`playground/**`**                                                             | `chore`                           | `feat`, `fix`                          |
 
-> **WARNING**: `feat` (Minor version bump) and `fix` (Patch version bump) are EXCLUSIVE to `src/`. NEVER use them for config, CI, docs, or examples.
+> **WARNING**: `feat` (Minor version bump) and `fix` (Patch version bump) are EXCLUSIVE to `src/` (non-test) files. NEVER use them for config, CI, docs, playground, or tests.
 
 ---
 
@@ -31,10 +31,12 @@ Before generating the message, analyze the file paths in the diff. You MUST foll
 `type(scope): description`
 
 - **scope**:
-  - If strictly `src/`: use the module name (e.g., `src/http` -> `http`).
+  - If strictly `src/` (non-test): use the module name (e.g., `src/core.ts` -> `core`, `src/svg.ts` -> `svg`, `src/cli.ts` -> `cli`, `src/adapters/node.ts` -> `node`).
+  - If `src/**/*.test.ts`: use the module name being tested (e.g., `src/core.test.ts` -> `core`).
   - If `docs/`: use `docs`.
   - If `.github/`: use `workflow` or `ci`.
   - If config files: use `config` or `deps`.
+  - If `playground/`: use `playground`.
 - **description**:
   - Use imperative mood ("add" not "added").
   - Lowercase start.
