@@ -2,10 +2,14 @@ import type { GradientType, TextAnchorPosition } from "../../../../src/types";
 import type { Preset } from "../../constants/presets";
 import type { ColorStop } from "../../types";
 import { ColorSection } from "../ColorSection";
-import { FontFileSection, FontSizeSection, FontWeightSection } from "./FontSection";
+import { AnchorSection } from "./AnchorSection";
+import { FontFileSection } from "./FontFileSection";
+import { FontSizeSection } from "./FontSizeSection";
+import { FontWeightSection } from "./FontWeightSection";
 import { PresetSection } from "./PresetSection";
-import { CornerRadiusSection, SizeSection } from "./SizeSection";
-import { AnchorSection, TextSection } from "./TextSection";
+import { CornerRadiusSection } from "./CornerRadiusSection";
+import { SizeSection } from "./SizeSection";
+import { TextSection } from "./TextSection";
 
 interface SettingsPanelProps {
 	text: () => string;

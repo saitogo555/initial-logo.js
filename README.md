@@ -98,9 +98,9 @@ npx initial-logo -t TS -r 16 -w 700 -a bottom-right -o logo.svg
 | `--backgroundColor` | `-B` | Background color — repeat for gradient | `#000000` |
 | `--textGradientType` | | Text gradient type: `linear` \| `radial` | `linear` |
 | `--bgGradientType` | | Background gradient type: `linear` \| `radial` | `linear` |
-| `--fontSource` | `-f` | Font URL or local file path | Raleway 900 (jsDelivr) |
+| `--fontSource` | `-f` | Font URL or local file path | Raleway 700 (jsDelivr) |
 | `--fontSize` | `-F` | Font size in pixels | `Math.round(size * 0.525)` |
-| `--fontWeight` | `-w` | Font weight | `900` |
+| `--fontWeight` | `-w` | Font weight | `700` |
 | `--borderRadius` | `-r` | Border radius in pixels | `0` |
 | `--textAnchor` | `-a` | Text anchor position (see below) | `center` |
 | `--help` | `-h` | Display help message | - |
@@ -123,9 +123,9 @@ Generates a logo as an SVG string. This is the primary export of the core librar
 | `textGradientType` | `'linear' \| 'radial'` | `'linear'` | Gradient type for text. Applies only when `textColor` is an array. |
 | `backgroundColor` | `string \| string[]` | `'#000000'` | Background color. Pass an array of 2+ colors for a gradient. |
 | `backgroundGradientType` | `'linear' \| 'radial'` | `'linear'` | Gradient type for background. Applies only when `backgroundColor` is an array. |
-| `fontSource` | `string \| ArrayBuffer` | Raleway 900 (jsDelivr CDN) | Font URL or `ArrayBuffer` of a WOFF2/TTF font. |
+| `fontSource` | `string \| ArrayBuffer` | Raleway 700 (jsDelivr CDN) | Font URL or `ArrayBuffer` of a WOFF2/TTF font. |
 | `fontSize` | `number` | `Math.round(size * 0.525)` | Font size in pixels. |
-| `fontWeight` | `string \| number` | `900` | Font weight passed to the font renderer. |
+| `fontWeight` | `string \| number` | `700` | Font weight passed to the font renderer. |
 | `borderRadius` | `number` | `0` | Corner radius of the square in pixels. |
 | `textAnchor` | `TextAnchorPosition` | `'center'` | Position of the text within the square. |
 
