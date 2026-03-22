@@ -1,10 +1,11 @@
 import { Show, createEffect } from "solid-js";
+import type { Accessor } from "solid-js";
 import { cn } from "../lib/utils";
 import type { ColorStop } from "../types";
 import { GripIcon } from "./ui/GripIcon";
 
 interface ColorStopRowProps {
-	stop: ColorStop;
+	stop: Accessor<ColorStop>;
 	index: number;
 	label: string;
 	isGradient: boolean;
@@ -23,7 +24,7 @@ export function ColorStopRow(props: ColorStopRowProps) {
 	// 外部からの色変更（プリセット等）をDOMに反映するが、
 	// ピッカーが開いている間は更新しない（ネイティブピッカーが閉じるのを防ぐ）
 	createEffect(() => {
-		const color = props.stop.color;
+		const color = props.stop().color;
 		if (!isPickerOpen) {
 			colorInputRef.value = color;
 		}
@@ -48,7 +49,7 @@ export function ColorStopRow(props: ColorStopRowProps) {
 			<label class="relative shrink-0 cursor-pointer group">
 				<div
 					class="w-8 h-8 rounded-md border-2 border-slate-700 transition-transform group-hover:scale-110"
-					style={{ "background-color": props.stop.color }}
+					style={{ "background-color": props.stop().color }}
 				/>
 				<input
 					type="color"
@@ -60,10 +61,12 @@ export function ColorStopRow(props: ColorStopRowProps) {
 						isPickerOpen = false;
 					}}
 					onInput={(e) => {
-					const v = e.currentTarget.value;
-					if (v.toLowerCase() !== props.stop.color.toLowerCase())
-						props.onUpdate(props.stop.id, v);
-				}}
+						const v = e.currentTarget.value;
+						const stop = props.stop();
+						if (v.toLowerCase() !== stop.color.toLowerCase()) {
+							props.onUpdate(stop.id, v);
+						}
+					}}
 					class="absolute inset-0 opacity-0 w-full h-full cursor-pointer"
 					aria-label={`${props.label} color ${props.index + 1}`}
 				/>
@@ -72,14 +75,14 @@ export function ColorStopRow(props: ColorStopRowProps) {
 			{/* Hex text input */}
 			<input
 				type="text"
-				value={props.stop.color.toUpperCase()}
+				value={props.stop().color.toUpperCase()}
 				onInput={(e) => {
 					const v = e.currentTarget.value;
-					if (/^#[0-9a-fA-F]{6}$/.test(v)) props.onUpdate(props.stop.id, v);
+					if (/^#[0-9a-fA-F]{6}$/.test(v)) props.onUpdate(props.stop().id, v);
 				}}
 				onChange={(e) => {
 					if (!/^#[0-9a-fA-F]{6}$/.test(e.currentTarget.value)) {
-						e.currentTarget.value = props.stop.color.toUpperCase();
+						e.currentTarget.value = props.stop().color.toUpperCase();
 					}
 				}}
 				maxLength={7}
@@ -91,7 +94,7 @@ export function ColorStopRow(props: ColorStopRowProps) {
 			<Show when={props.isGradient}>
 				<button
 					type="button"
-					onClick={() => props.onRemove(props.stop.id)}
+					onClick={() => props.onRemove(props.stop().id)}
 					disabled={props.isDeleteDisabled}
 					aria-label="Remove color"
 					class={cn(
