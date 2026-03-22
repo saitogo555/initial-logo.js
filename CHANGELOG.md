@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/saitogo555/initial-logo.js/compare/v1.2.0...v1.2.1) (2026-03-22)
+
+
+### 📚 Documentation
+
+* READMEと日本語READMEにバナー画像を追加 ([f06fea8](https://github.com/saitogo555/initial-logo.js/commit/f06fea849e647380c93c792effb467edf611e9b4))
+
 ## [1.2.0](https://github.com/saitogo555/initial-logo.js/compare/v1.1.0...v1.2.0) (2026-03-22)
 
 
