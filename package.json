@@ -48,6 +48,7 @@
 	"sideEffects": false,
 	"scripts": {
 		"build": "tsup",
+		"typecheck": "tsc --noEmit",
 		"dev": "tsup --watch",
 		"playground": "vite playground",
 		"test": "vitest run",
