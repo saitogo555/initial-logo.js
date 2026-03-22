@@ -56,7 +56,15 @@ export async function buildGlyphPaths(
 
 	const buffer = await resolveToArrayBuffer(fontSource);
 
-	const created = fontkit.create(new Uint8Array(buffer) as unknown as Buffer);
+	// fontkit.create() is typed to accept Buffer, but Uint8Array works at runtime.
+	// Cast to avoid depending on Node.js's Buffer type in Core.
+	type FontkitCreate = (
+		buffer: Uint8Array,
+		postscriptName?: string,
+	) => ReturnType<typeof fontkit.create>;
+	const created = (fontkit.create as unknown as FontkitCreate)(
+		new Uint8Array(buffer),
+	);
 
 	if (!("layout" in created)) {
 		throw new Error(
@@ -73,7 +81,10 @@ export async function buildGlyphPaths(
 	const run = font.layout(text);
 
 	const totalAdvance =
-		run.positions.reduce((sum: number, pos) => sum + pos.xAdvance, 0) * scale;
+		run.positions.reduce(
+			(sum: number, pos: { xAdvance: number }) => sum + pos.xAdvance,
+			0,
+		) * scale;
 
 	const rawCap: unknown = (font as unknown as Record<string, unknown>)
 		.capHeight;
