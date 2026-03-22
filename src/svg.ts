@@ -1,152 +1,198 @@
 import {
-  DEFAULT_SIZE,
-  DEFAULT_TEXT_COLOR,
-  DEFAULT_FONT_SOURCE,
-  DEFAULT_FONT_WEIGHT,
-  DEFAULT_LINE_HEIGHT,
-  DEFAULT_BG_COLOR,
+	DEFAULT_BG_COLOR,
+	DEFAULT_FONT_SOURCE,
+	DEFAULT_FONT_WEIGHT,
+	DEFAULT_SIZE,
+	DEFAULT_TEXT_COLOR,
 } from "./constants";
-import type { LogoOptions, SVGNode } from "./types";
-import { validateOptions } from "./validater";
+import { buildGlyphPaths } from "./font";
+import type { GradientType, LogoOptions, SVGNode } from "./types";
 
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
+/**
+ * 入力の組み合わせから安定した 8 桁の hex ID を生成する (djb2 変形)。
+ * 同じ入力には必ず同じ ID が返る。
+ */
+function stableId(
+	text: string,
+	bgColor: string | string[],
+	textColor: string | string[] | undefined,
+): string {
+	const seed = [
+		text,
+		Array.isArray(bgColor) ? bgColor.join(",") : bgColor,
+		Array.isArray(textColor) ? textColor.join(",") : (textColor ?? ""),
+	].join("\0");
+	let h = 5381;
+	for (const char of seed) {
+		h = (((h << 5) + h) ^ (char.codePointAt(0) ?? 0)) | 0;
+	}
+	return (h >>> 0).toString(16).padStart(8, "0");
 }
 
-export function buildSvgNode(options: LogoOptions): SVGNode {
-  validateOptions(options);
-  const id = Math.random().toString(16).substring(2, 10);
-  const size = options.size ?? DEFAULT_SIZE;
-  const bgColor = options.backgroundColor ?? DEFAULT_BG_COLOR;
-  const fontSize = options.fontSize ?? Math.round(size * 0.525);
-  const fontWeight = options.fontWeight ?? DEFAULT_FONT_WEIGHT;
-  const lineHeight = options.lineHeight ?? DEFAULT_LINE_HEIGHT;
-  const fontSource = options.fontSource ?? DEFAULT_FONT_SOURCE;
+export async function buildSvgNode(options: LogoOptions): Promise<SVGNode> {
+	const size = options.size ?? DEFAULT_SIZE;
+	const bgColor = options.backgroundColor ?? DEFAULT_BG_COLOR;
+	const id = stableId(options.text, bgColor, options.textColor);
+	const fontSize = options.fontSize ?? Math.round(size * 0.525);
+	const fontWeight = Number(options.fontWeight ?? DEFAULT_FONT_WEIGHT);
+	const fontSource = options.fontSource ?? DEFAULT_FONT_SOURCE;
 
-  const gradients: SVGNode[] = [];
+	const glyphItems = await buildGlyphPaths(
+		fontSource,
+		options.text,
+		size,
+		fontSize,
+		fontWeight,
+		options.textAnchor,
+	);
 
-  if (fontSource) {
-    gradients.push({
-      tag: "style",
-      children: [
-        `@font-face { font-family: "font-${id}"; font-weight: 100 900; src: url(${fontSource}) format("woff2"); }`,
-      ],
-    });
-  }
+	const textFill = Array.isArray(options.textColor)
+		? `url(#textGradient-${id})`
+		: (options.textColor ?? DEFAULT_TEXT_COLOR);
 
-  if (Array.isArray(bgColor)) {
-    gradients.push({
-      tag: "linearGradient",
-      attrs: {
-        id: `bgGradient-${id}`,
-        x1: "0%",
-        y1: "0%",
-        x2: "100%",
-        y2: "0%",
-      },
-      children: bgColor.map((color, index) => ({
-        tag: "stop",
-        attrs: {
-          offset: `${(index / (bgColor.length - 1)) * 100}%`,
-          "stop-color": color,
-        },
-        children: [],
-      })),
-    });
-  }
+	const gradients: SVGNode[] = [];
 
-  if (Array.isArray(options.textColor)) {
-    const textColors = options.textColor;
-    gradients.push({
-      tag: "linearGradient",
-      attrs: {
-        id: `textGradient-${id}`,
-        x1: "0%",
-        y1: "0%",
-        x2: "100%",
-        y2: "0%",
-      },
-      children: textColors.map((color, index) => ({
-        tag: "stop",
-        attrs: {
-          offset: `${(index / (textColors.length - 1)) * 100}%`,
-          "stop-color": color,
-        },
-        children: [],
-      })),
-    });
-  }
+	if (Array.isArray(bgColor)) {
+		const bgGradType: GradientType = options.backgroundGradientType ?? "linear";
+		gradients.push({
+			tag: bgGradType === "radial" ? "radialGradient" : "linearGradient",
+			attrs:
+				bgGradType === "radial"
+					? { id: `bgGradient-${id}`, cx: "50%", cy: "50%", r: "50%" }
+					: {
+							id: `bgGradient-${id}`,
+							x1: "0%",
+							y1: "0%",
+							x2: "100%",
+							y2: "0%",
+						},
+			children: bgColor.map((color, index) => ({
+				tag: "stop",
+				attrs: {
+					offset: `${(index / (bgColor.length - 1)) * 100}%`,
+					"stop-color": color,
+				},
+				children: [],
+			})),
+		});
+	}
 
-  const defs: SVGNode = {
-    tag: "defs",
-    attrs: {},
-    children: gradients,
-  };
+	if (Array.isArray(options.textColor)) {
+		const textColors = options.textColor;
+		const textGradType: GradientType = options.textGradientType ?? "linear";
+		gradients.push({
+			tag: textGradType === "radial" ? "radialGradient" : "linearGradient",
+			attrs:
+				textGradType === "radial"
+					? { id: `textGradient-${id}`, cx: "50%", cy: "50%", r: "50%" }
+					: {
+							id: `textGradient-${id}`,
+							x1: "0%",
+							y1: "0%",
+							x2: "100%",
+							y2: "0%",
+						},
+			children: textColors.map((color, index) => ({
+				tag: "stop",
+				attrs: {
+					offset: `${(index / (textColors.length - 1)) * 100}%`,
+					"stop-color": color,
+				},
+				children: [],
+			})),
+		});
+	}
 
-  const bgRect: SVGNode = {
-    tag: "rect",
-    attrs: {
-      width: size.toString(),
-      height: size.toString(),
-      fill: Array.isArray(bgColor) ? `url(#bgGradient-${id})` : bgColor,
-    },
-    children: [],
-  };
+	const rx =
+		options.borderRadius !== undefined && options.borderRadius > 0
+			? options.borderRadius
+			: 0;
 
-  const textNode: SVGNode = {
-    tag: "text",
-    attrs: {
-      x: (size * 0.9375).toString(),
-      y: (size * 0.9125).toString(),
-      "text-anchor": "end",
-      "font-family": `font-${id}`,
-      "font-size": fontSize.toString(),
-      "font-weight": fontWeight.toString(),
-      "line-height": lineHeight.toString(),
-      fill: Array.isArray(options.textColor)
-        ? `url(#textGradient-${id})`
-        : options.textColor ?? DEFAULT_TEXT_COLOR,
-    },
-    children: [options.text],
-  };
+	const clipPath: SVGNode = {
+		tag: "clipPath",
+		attrs: { id: `bgClip-${id}` },
+		children: [
+			{
+				tag: "rect",
+				attrs: {
+					width: size.toString(),
+					height: size.toString(),
+					...(rx > 0 ? { rx: rx.toString() } : {}),
+				},
+				children: [],
+			},
+		],
+	};
 
-  return {
-    tag: "svg",
-    attrs: {
-      xmlns: "http://www.w3.org/2000/svg",
-      width: size.toString(),
-      height: size.toString(),
-      viewBox: `0 0 ${size} ${size}`,
-    },
-    children: [defs, bgRect, textNode],
-  };
+	const defs: SVGNode = {
+		tag: "defs",
+		attrs: {},
+		children: [...gradients, clipPath],
+	};
+
+	const bgRect: SVGNode = {
+		tag: "rect",
+		attrs: {
+			width: size.toString(),
+			height: size.toString(),
+			fill: Array.isArray(bgColor) ? `url(#bgGradient-${id})` : bgColor,
+			...(rx > 0 ? { rx: rx.toString() } : {}),
+		},
+		children: [],
+	};
+
+	const glyphGroup: SVGNode = {
+		tag: "g",
+		attrs: { fill: textFill, "clip-path": `url(#bgClip-${id})` },
+		children: glyphItems.map((item) => ({
+			tag: "path" as const,
+			attrs: { d: item.pathData, transform: item.transform },
+			children: [],
+		})),
+	};
+
+	return {
+		tag: "svg",
+		attrs: {
+			xmlns: "http://www.w3.org/2000/svg",
+			width: size.toString(),
+			height: size.toString(),
+			viewBox: `0 0 ${size} ${size}`,
+		},
+		children: [defs, bgRect, glyphGroup],
+	};
+}
+
+function escapeXml(str: string): string {
+	return str
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&apos;");
 }
 
 export function buildRawSVG(svg: SVGNode): string {
-  const { tag, attrs, children } = svg;
+	const { tag, attrs, children } = svg;
 
-  const attrString = attrs
-    ? Object.entries(attrs)
-        .map(([key, value]) => `${key}="${escapeXml(String(value))}"`)
-        .join(" ")
-        : "";
+	const attrString = attrs
+		? Object.entries(attrs)
+				.filter(([, value]) => value !== undefined && value !== null)
+				.map(([key, value]) => `${key}="${escapeXml(String(value))}"`)
+				.join(" ")
+		: "";
 
-  const openingTag = attrString ? `<${tag} ${attrString}>` : `<${tag}>`;
+	const openingTag = attrString ? `<${tag} ${attrString}>` : `<${tag}>`;
 
-  const childrenString = children
-    ? children
-        .map((child) =>
-          typeof child === "string" ? escapeXml(child) : buildRawSVG(child as SVGNode)
-        )
-        .join("")
-    : "";
+	const childrenString = children
+		? children
+				.map((child) =>
+					typeof child === "string" ? escapeXml(child) : buildRawSVG(child),
+				)
+				.join("")
+		: "";
 
-  const closingTag = `</${tag}>`;
+	const closingTag = `</${tag}>`;
 
-  return `${openingTag}${childrenString}${closingTag}`;
+	return `${openingTag}${childrenString}${closingTag}`;
 }
