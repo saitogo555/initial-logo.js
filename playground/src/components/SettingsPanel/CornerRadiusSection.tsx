@@ -1,35 +1,35 @@
-interface SizeSectionProps {
-	size: () => number;
+interface CornerRadiusSectionProps {
+	borderRadius: () => number;
 	onInput: (v: number) => void;
 }
 
-export function SizeSection(props: SizeSectionProps) {
+export function CornerRadiusSection(props: CornerRadiusSectionProps) {
 	return (
 		<section class="space-y-2">
 			<div class="flex items-center justify-between">
 				<label
-					for="input-size"
+					for="input-border-radius"
 					class="text-xs font-semibold uppercase tracking-wider text-slate-400"
 				>
-					Size
+					Corner Radius
 				</label>
 				<span class="text-sm font-mono text-slate-300 tabular-nums">
-					{props.size()}px
+					{props.borderRadius() === 0 ? "0%" : `${props.borderRadius()}%`}
 				</span>
 			</div>
 			<input
-				id="input-size"
+				id="input-border-radius"
 				type="range"
-				min="64"
-				max="512"
-				step="8"
-				value={props.size()}
+				min="0"
+				max="50"
+				step="1"
+				value={props.borderRadius()}
 				onInput={(e) => props.onInput(Number(e.currentTarget.value))}
 				class="w-full"
 			/>
 			<div class="flex justify-between text-xs text-slate-700 select-none">
-				<span>64px</span>
-				<span>512px</span>
+				<span>0%</span>
+				<span>50%</span>
 			</div>
 		</section>
 	);
